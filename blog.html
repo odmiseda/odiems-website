@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Blog — Odiems</title>
+  <meta name="description" content="Odiems blog: financial tips and updates." />
+  <link rel="stylesheet" href="styles.css" />
+  <script src="js/main.js" defer></script>
+</head>
+<body>
+  <header class="site-header"><div class="container header-inner"><a class="brand" href="index.html"><img src="images/logo.png" alt="Odiems" class="logo" /></a>
+  <nav class="main-nav"><ul><li><a href="index.html">Home</a></li><li><a class="active" href="blog.html">Blog</a></li></ul></nav></div></header>
+
+  <main class="container blog-section">
+    <h1>Odiems Blog</h1>
+    <p>Financial literacy, borrowing tips and company updates.</p>
+    <div id="posts">Loading posts…</div>
+    <p class="small">If posts don't load due to CORS, view the blog directly on <a href="https://odiemsltd.blogspot.com/" target="_blank">odiemsltd.blogspot.com</a>.</p>
+  </main>
+
+  <footer class="site-footer container"><p>© <span id="yearBlog"></span> Odiems</p></footer>
+  <script>document.getElementById('yearBlog').textContent = new Date().getFullYear(); if (window.loadBloggerPosts) window.loadBloggerPosts();</script>
+</body>
+</html>

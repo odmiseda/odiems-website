@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Loan Calculator — Odiems</title>
+  <meta name="description" content="Calculate your loan repayment (30% interest, 14 days). See penalty for default." />
+  <link rel="stylesheet" href="styles.css" />
+  <script src="js/main.js" defer></script>
+</head>
+<body>
+  <header class="site-header"><div class="container header-inner"><a class="brand" href="index.html"><img src="images/logo.png" alt="Odiems" class="logo" /></a>
+  <nav class="main-nav"><ul><li><a href="index.html">Home</a></li><li><a href="apply.html">Apply</a></li><li><a class="active" href="loan-calculator.html">Calculator</a></li><li><a href="repay.html">Repay</a></li></ul></nav></div></header>
+
+  <main class="container form-section">
+    <h1>Loan Calculator</h1>
+    <p>Estimate your repayment. Loans are 14 days with a flat 30% interest. Late payments have a penalty.</p>
+
+    <label for="calcAmount">Loan amount (KES)</label>
+    <input id="calcAmount" type="number" min="100" value="1000" />
+
+    <label for="calcLate">Late / rolled over?</label>
+    <select id="calcLate">
+      <option value="no">No — on time</option>
+      <option value="yes">Yes — rolled over / late</option>
+    </select>
+
+    <button class="btn primary" id="calcBtn">Calculate</button>
+
+    <div id="calcResult" class="result-box" style="margin-top:16px;"></div>
+  </main>
+
+  <footer class="site-footer container"><p>© <span id="yearCalc"></span> Odiems</p></footer>
+  <script>
+    document.getElementById('yearCalc').textContent = new Date().getFullYear();
+    document.getElementById('calcBtn').addEventListener('click', function(){
+      const amt = Number(document.getElementById('calcAmount').value);
+      const late = document.getElementById('calcLate').value === 'yes';
+      const r = calculateLoan(amt, late);
+      if (!r) { document.getElementById('calcResult').innerHTML = '<p style="color:red">Enter a valid amount.</p>'; return; }
+      let html = `<p>Principal: <strong>KES ${r.principal.toFixed(2)}</strong></p>
+                  <p>Interest (30%): <strong>KES ${r.interest.toFixed(2)}</strong></p>`;
+      if (r.penalty > 0) html += `<p>Late Penalty: <strong>KES ${r.penalty.toFixed(2)}</strong></p>`;
+      html += `<p><strong>Total Repayment: KES ${r.total.toFixed(2)}</strong></p>`;
+      document.getElementById('calcResult').innerHTML = html;
+    });
+  </script>
+</body>
+</html>

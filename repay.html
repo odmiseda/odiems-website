@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Repay Loan — Odiems</title>
+  <meta name="description" content="Repay your Odiems loan via PayPal." />
+  <link rel="stylesheet" href="styles.css" />
+  <script src="https://www.paypal.com/sdk/js?client-id=Ada-CnjQrvwMmxZUkh2Zppfyeg-Ai3VFxTacUlq5Xp8OlQK40zjmiLvJwfBTvTEZaE-Ykvju2CGyPhTI&currency=USD" defer></script>
+  <script src="js/main.js" defer></script>
+</head>
+<body>
+  <header class="site-header"><div class="container header-inner"><a class="brand" href="index.html"><img src="images/logo.png" alt="Odiems" class="logo" /></a>
+  <nav class="main-nav"><ul><li><a href="index.html">Home</a></li><li><a href="apply.html">Apply</a></li><li><a href="loan-calculator.html">Calculator</a></li><li><a class="active" href="repay.html">Repay</a></li></ul></nav></div></header>
+
+  <main class="container form-section">
+    <h1>Repay Your Loan</h1>
+    <p>Enter your details and pay your outstanding balance via PayPal.</p>
+
+    <form id="repayForm">
+      <label for="repayerName">Full name</label>
+      <input id="repayerName" name="repayerName" type="text" required />
+
+      <label for="loanRef">Loan reference ID</label>
+      <input id="loanRef" name="loanRef" type="text" required />
+
+      <label for="repayKES">Amount to repay (KES)</label>
+      <input id="repayKES" name="repayKES" type="number" min="100" required />
+
+      <button class="btn primary" type="submit">Proceed to Pay</button>
+    </form>
+
+    <div id="paypalRepay" style="margin-top:18px; display:none;"></div>
+
+    <div id="repaySuccess" style="display:none;margin-top:18px;">
+      <h3>Payment received</h3>
+      <p>Thank you. We'll update your account and confirm via WhatsApp/SMS.</p>
+      <a class="btn" href="index.html">Return Home</a>
+    </div>
+  </main>
+
+  <footer class="site-footer container"><p>© <span id="yearRepay"></span> Odiems</p></footer>
+  <script>
+    document.getElementById('yearRepay').textContent = new Date().getFullYear();
+    document.getElementById('repayForm').addEventListener('submit', function(e){
+      e.preventDefault();
+      renderRepayPayPal();
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Apply for a Loan — Odiems</title>
+  <meta name="description" content="Apply for an Odiems short-term loan. A small KES 100 processing fee applies." />
+  <link rel="stylesheet" href="styles.css" />
+  <!-- PayPal SDK (client-id and currency) -->
+  <script src="https://www.paypal.com/sdk/js?client-id=Ada-CnjQrvwMmxZUkh2Zppfyeg-Ai3VFxTacUlq5Xp8OlQK40zjmiLvJwfBTvTEZaE-Ykvju2CGyPhTI&currency=USD" defer></script>
+  <script src="js/main.js" defer></script>
+</head>
+<body>
+  <header class="site-header"><div class="container header-inner"><a class="brand" href="index.html"><img src="images/logo.png" alt="Odiems" class="logo" /></a>
+  <nav class="main-nav"><ul><li><a href="index.html">Home</a></li><li><a class="active" href="apply.html">Apply</a></li><li><a href="loan-calculator.html">Calculator</a></li><li><a href="repay.html">Repay</a></li></ul></nav></div></header>
+
+  <main class="container form-section">
+    <h1>Apply for a Loan</h1>
+    <p>Fill your details and pay the one-time processing fee of <strong>KES 100</strong> to submit your application.</p>
+
+    <form id="applyForm">
+      <label for="fullname">Full name</label>
+      <input id="fullname" name="fullname" type="text" required />
+
+      <label for="phone">Phone (M-Pesa / WhatsApp)</label>
+      <input id="phone" name="phone" type="tel" placeholder="+2547..." required />
+
+      <label for="email">Email</label>
+      <input id="email" name="email" type="email" required />
+
+      <label for="amount">Loan amount (KES)</label>
+      <input id="amount" name="amount" type="number" min="1000" max="100000" value="1000" required />
+
+      <p class="small">By applying you agree to our <a href="privacy.html">Privacy Policy</a> and <a href="terms.html">Terms</a>.</p>
+
+      <div id="applyActions">
+        <button class="btn primary" type="submit">Pay KES 100 & Submit</button>
+      </div>
+    </form>
+
+    <div id="paypalButtons" style="margin-top:18px; display:none;"></div>
+
+    <div id="applySuccess" style="display:none;margin-top:18px;">
+      <h3>Application received</h3>
+      <p>Your payment was verified. We’ll contact you via WhatsApp shortly to complete the loan.</p>
+      <a class="btn" href="https://wa.me/254795179287?text=I%20have%20paid%20and%20applied%20for%20a%20loan">Message us on WhatsApp</a>
+    </div>
+  </main>
+
+  <footer class="site-footer container"><p>© <span id="yearApply"></span> Odiems</p></footer>
+  <script>
+    document.getElementById('yearApply').textContent = new Date().getFullYear();
+    document.getElementById('applyForm').addEventListener('submit', function(e){
+      e.preventDefault();
+      // show PayPal buttons via main.js function
+      renderApplyPayPal();
+    });
+  </script>
+</body>
+</html>

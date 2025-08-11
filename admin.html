@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Odiems Admin (local)</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .admin-wrap { max-width:900px; margin:30px auto; }
+    .row { display:flex; gap:8px; align-items:center; }
+    table { width:100%; border-collapse:collapse; margin-top:12px; }
+    th,td { padding:8px 6px; border:1px solid #eee; text-align:left; }
+    .btn-small { padding:6px 10px; border-radius:6px; cursor:pointer; }
+    .approved { background:#d4edda; }
+    .rejected { background:#f8d7da; }
+  </style>
+</head>
+<body>
+  <div class="admin-wrap">
+    <h1>Odiems — Admin (browser)</h1>
+
+    <!-- quick import area so you can paste raw JSON of applications -->
+    <p>Paste application JSON (from your email / CSV) to load into dashboard:</p>
+    <textarea id="importData" rows="4" style="width:100%"></textarea>
+    <div style="margin-top:8px">
+      <button id="importBtn" class="btn-small">Import</button>
+      <button id="addDummy" class="btn-small">Add Dummy App</button>
+      <button id="exportBtn" class="btn-small">Export JSON</button>
+    </div>
+
+    <h2>Applications</h2>
+    <table id="appsTable">
+      <thead><tr><th>ID</th><th>Name</th><th>Phone</th><th>Amount</th><th>Status</th><th>Actions</th></tr></thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
+  <script>
+    // Admin local dashboard (no backend) — stores apps in localStorage
+    const key = 'odiems_apps_v1';
+    const tableBody = document.querySelector('#appsTable tbody');
+    function loadApps() {
+      const raw = localStorage.getItem(key) || '[]';
+      return JSON.parse(raw);
+    }
+    function saveApps(apps) {
+      localStorage.setItem(key, JSON.stringify(apps));
+      render();
+    }
+    function render() {
+      const apps = loadApps();
+      tableBody.innerHTML = '';
+      apps.forEach((a, i) => {
+        const tr = document.createElement('tr');
+        tr.className = a.status === 'approved' ? 'approved' : a.status === 'rejected' ? 'rejected' : '';
+        tr.innerHTML = `<td>${a.id || i+1}</td>
+          <td>${a.name || ''}</td>
+          <td>${a.phone || ''}</td>
+          <td>KES ${a.amount || ''}</td>
+          <td>${a.status || 'pending'}</td>
+          <td>
+            <button onclick="approve(${i})">Approve</button>
+            <button onclick="reject(${i})">Reject</button>
+            <button onclick="del(${i})">Delete</button>
+          </td>`;
+        tableBody.appendChild(tr);
+      });
+    }
+    function approve(i) { const apps=loadApps(); apps[i].status='approved'; saveApps(apps); }
+    function reject(i) { const apps=loadApps(); apps[i].status='rejected'; saveApps(apps); }
+    function del(i) { const apps=loadApps(); apps.splice(i,1); saveApps(apps); }
+
+    document.getElementById('importBtn').addEventListener('click', function(){
+      const txt = document.getElementById('importData').value.trim();
+      if (!txt) return alert('Paste JSON first.');
+      try {
+        const data = JSON.parse(txt);
+        if (!Array.isArray(data)) return alert('Expected JSON array');
+        saveApps(data);
+      } catch(e) { alert('Invalid JSON'); console.error(e); }
+    });
+
+    document.getElementById('addDummy').addEventListener('click', function(){
+      const apps = loadApps();
+      apps.push({ id: apps.length + 1, name: 'Test User', phone: '+2547xxxx', amount: 1000, status: 'pending', submitted: new Date().toISOString() });
+      saveApps(apps);
+    });
+
+    document.getElementById('exportBtn').addEventListener('click', function(){
+      const data = loadApps();
+      const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a'); a.href = url; a.download = 'applications.json'; a.click();
+    });
+
+    render();
+  </script>
+</body>
+</html>

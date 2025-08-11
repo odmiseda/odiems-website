@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Contact — Odiems</title>
+  <meta name="description" content="Contact Odiems for loan support." />
+  <link rel="stylesheet" href="styles.css" />
+  <script src="js/main.js" defer></script>
+</head>
+<body>
+  <header class="site-header"><div class="container header-inner"><a class="brand" href="index.html"><img src="images/logo.png" alt="Odiems" class="logo" /></a>
+  <nav class="main-nav"><ul><li><a href="index.html">Home</a></li><li><a class="active" href="contact.html">Contact</a></li></ul></nav></div></header>
+
+  <main class="container contact-section">
+    <h1>Contact Odiems</h1>
+    <p>Reach us via WhatsApp, email or the form below.</p>
+
+    <div class="grid">
+      <div class="card"><h3>WhatsApp / Phone</h3><p><a href="https://wa.me/254795179287">+254 795 179 287</a></p></div>
+      <div class="card"><h3>Email</h3><p><a href="mailto:info@odiems.com">info@odiems.com</a></p></div>
+      <div class="card"><h3>Office</h3><p>Nairobi, Kenya</p></div>
+    </div>
+
+    <h2>Send us a message</h2>
+    <form id="contactForm" action="mailto:info@odiems.com" method="post" enctype="text/plain">
+      <label for="cname">Name</label><input id="cname" name="name" required />
+      <label for="cemail">Email</label><input id="cemail" name="email" type="email" required />
+      <label for="cmessage">Message</label><textarea id="cmessage" name="message" rows="6" required></textarea>
+      <button class="btn primary" type="submit">Send</button>
+    </form>
+  </main>
+
+  <footer class="site-footer container"><p>© <span id="yearContact"></span> Odiems</p></footer>
+  <script>document.getElementById('yearContact').textContent = new Date().getFullYear();</script>
+</body>
+</html>
